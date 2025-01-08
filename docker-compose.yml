@@ -1,0 +1,25 @@
+services:
+  db:
+    image: keinos/sqlite3:3.47.2
+    container_name: sqlite3
+    restart: always
+    tty: true
+    ports:
+      - "8191:8191"
+    volumes:
+      - ./db/:/root/db/
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    ports:
+      - "8080:8080"
+    # environment:
+    # DB_HOST: db
+    # DB_PORT: 8191
+    # DISCORD_TOKEN: ${DISCORD_TOKEN}
+    # GUILD_ID: ${GUILD_ID}
+    # APP_ID: ${APP_ID}
+    depends_on:
+      - db

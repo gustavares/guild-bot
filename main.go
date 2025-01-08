@@ -28,35 +28,7 @@ func main() {
 		log.Fatal("Error creating Discord session: ", err.Error())
 	}
 
-	// List of bot commands
-	_, acErr := discordSession.ApplicationCommandBulkOverwrite(appID, guildID, []*discordgo.ApplicationCommand{
-		{
-			Name:        "hello-world",
-			Description: "Showcase of a basic slash command",
-		},
-	})
-	if acErr != nil {
-		log.Fatal("Failed to set bot commands: ", err.Error())
-	}
-
-	discordSession.AddHandler(func(s *discordgo.Session, i *discordgo.InteractionCreate) {
-		data := i.ApplicationCommandData()
-		switch data.Name {
-		case "hello-world":
-			err := s.InteractionRespond(
-				i.Interaction,
-				&discordgo.InteractionResponse{
-					Type: discordgo.InteractionResponseChannelMessageWithSource,
-					Data: &discordgo.InteractionResponseData{
-						Content: "Hello world!",
-					},
-				},
-			)
-			if err != nil {
-				fmt.Println("hello-world command failed: ", err.Error())
-			}
-		}
-	})
+	loadCommands(discordSession, appID, guildID)
 
 	// Opening the discord session
 	err = discordSession.Open()

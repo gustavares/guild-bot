@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"guild-bot/database"
 	"log"
 	"os"
 	"os/signal"
@@ -27,6 +28,11 @@ func main() {
 	if err != nil {
 		log.Fatal("Error creating Discord session: ", err.Error())
 	}
+
+	// Connects to Database
+	// TODO: pass DB down to commands to run queries
+	db := database.Init()
+	defer db.Close()
 
 	loadCommands(discordSession, appID, guildID)
 

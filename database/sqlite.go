@@ -8,20 +8,18 @@ import (
 	_ "github.com/ncruces/go-sqlite3/embed"
 )
 
-func Init() *sql.DB {
-	db, err := sql.Open("sqlite3", "file:/root/db/guild-bot.db")
+const DEFAULT_DSN = "file:/root/db/guild-bot.db"
+
+func initSqlLite() *sql.DB {
+	return initSqlLiteWithDSN(DEFAULT_DSN)
+}
+
+func initSqlLiteWithDSN(dsn string) *sql.DB {
+	db, err := sql.Open("sqlite3", dsn)
 	if err != nil {
 		log.Fatalf("Failed to open database: %v", err)
 	}
 
-	if err = db.Ping(); err != nil {
-		log.Fatalf("Failed to ping database: %v", err)
-	}
-
 	log.Println("Connected to Database!")
 	return db
-}
-
-func GetAllRespawns(db *sql.DB) {
-	// TODO: implement
 }

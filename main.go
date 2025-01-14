@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"guild-bot/database"
 	"log"
 	"os"
 	"os/signal"
@@ -31,8 +30,8 @@ func main() {
 
 	// Connects to Database
 	// TODO: pass DB down to commands to run queries
-	db := database.Init()
-	defer db.Close()
+	// db := database.Init()
+	// defer db.Close()
 
 	loadCommands(discordSession, appID, guildID)
 
